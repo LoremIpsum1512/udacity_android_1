@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.udacity.shoestore.R
 import com.udacity.shoestore.databinding.FragmentShoeListingBinding
@@ -40,15 +41,7 @@ class ShoeListingFragment : Fragment() {
         })
 
         binding.fab.setOnClickListener {
-            val rd = (0..1000).random()
-            val shoe =
-                Shoe(
-                    name = "${rd}name",
-                    size = 1.0,
-                    company = "company",
-                    description = "description"
-                )
-            viewModel.addShoe(shoe)
+          it.findNavController().navigate(R.id.action_shoeListingFragment_to_shoeDetailFragment)
         }
 
 
@@ -65,5 +58,10 @@ class ShoeListingFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return NavigationUI.onNavDestinationSelected(item, requireView().findNavController()) ||
                 super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.removeAll()
     }
 }
