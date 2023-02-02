@@ -7,12 +7,13 @@
 
     </data>
 
-
+    <!-- constraint layout is used to positioning the FAB button floating in the bottom of screen and above scroll view -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.ShoeListingFragment">
 
+        <!-- scroll view and linear layout are used so to that it supports more shoe listings -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -22,39 +22,30 @@ class ShoeDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentShoeDetailBinding.inflate(layoutInflater)
+        viewModel.resetShoeValue()
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.cancelButton.setOnClickListener {
             it.findNavController().navigateUp()
         }
 
         binding.saveButton.setOnClickListener {
-            if (hasEmptyInput()) Toast.makeText(
+            if (viewModel.hasEmptyInput()) Toast.makeText(
                 context,
                 "Some inputs are missing, please check again",
                 Toast.LENGTH_SHORT
             ).show()
             else {
-                addShoe()
+                viewModel.addShoe()
+                findNavController().navigateUp()
             }
         }
         return binding.root
     }
 
-    private fun addShoe() {
-        val shoe = Shoe(
-            name = binding.nameInput.text.toString(),
-            company = binding.companyInput.text.toString(),
-            size =  binding.sizeInput.text.toString().toDouble(),
-            description = binding.descriptionInput.text.toString()
-        )
-        viewModel.addShoe(shoe)
-        findNavController().navigateUp()
-    }
-
-    private fun hasEmptyInput(): Boolean {
-        return binding.nameInput.text.isEmpty()
-                || binding.companyInput.text.isEmpty()
-                || binding.sizeInput.text.isEmpty()
-                || binding.descriptionInput.text.isEmpty()
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.resetShoeValue()
     }
 
 }
